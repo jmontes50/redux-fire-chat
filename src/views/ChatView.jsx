@@ -1,29 +1,22 @@
-import React, { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function ChatView() {
-  const [messages, setMessages] = useState([
-    { id: 1, sender: "Juan", text: "Hola, ¿cómo estás?", isMe: false },
-    { id: 2, sender: "Tú", text: "Hola Juan, estoy bien ¿y tú?", isMe: true },
-    { id: 3, sender: "María", text: "¡Hola a todos!", isMe: false },
-    { id: 4, sender: "Tú", text: "Hola María, bienvenida", isMe: true },
-  ]);
-  const [newMessage, setNewMessage] = useState("");
+
 
   const handleSendMessage = (e) => {
+    //prevenimos el evento por defecto del formulario
     e.preventDefault();
+    //verificamos que el mensaje no esta en blanco
     if (newMessage.trim() !== "") {
-      setMessages([
-        ...messages,
-        { id: messages.length + 1, sender: "Tú", text: newMessage, isMe: true },
-      ]);
-      setNewMessage("");
+
     }
   };
 
   return (
     <main className="px-4 mx-auto lg:px-8 xl:max-w-7xl">
       <div className="flex flex-col h-screen bg-gray-100">
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 p-4 space-y-4 overflow-y-auto">
           {messages.map((message) => (
             <div
               key={message.id}
@@ -50,7 +43,7 @@ export default function ChatView() {
                       : "bg-white text-gray-800"
                   }`}
                 >
-                  <p className="font-semibold text-sm">{message.sender}</p>
+                  <p className="text-sm font-semibold">{message.sender}</p>
                   <p className="text-sm">{message.text}</p>
                 </div>
               </div>
@@ -68,7 +61,7 @@ export default function ChatView() {
             />
             <button
               type="submit"
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <i className="fa-solid fa-paper-plane fa-2x"></i>
             </button>

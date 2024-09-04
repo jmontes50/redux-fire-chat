@@ -1,4 +1,6 @@
-export default function Component() {
+import { useDispatch, useSelector } from "react-redux";
+
+export default function Chat() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="p-8 bg-white rounded-lg shadow-md">

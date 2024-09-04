@@ -1,7 +1,7 @@
 //Una referencia a nuestro propia aplicación ya registrada de firebase
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getStorage } from "firebase/storage"
+import { getFirestore } from "firebase/firestore"
 
 //firebase nos da unas credenciales asi que las estamos trayendo de las variables de entorno configuradas previamente
 const firebaseConfig = {
@@ -21,9 +21,10 @@ const app = initializeApp(firebaseConfig);
 //va a ser la referencia del servicio de autenticación
 const auth = getAuth(app);
 
-const storage = getStorage(app)
+//referencia de el servicio de firestore database
+const db = getFirestore(app)
 
 export {
     auth,
-    storage
+    db
 }
