@@ -3,6 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function ChatView() {
 
+  const isMe = (messageUID) => {
+    return true;
+  }
+
 
   const handleSendMessage = (e) => {
     //prevenimos el evento por defecto del formulario
@@ -21,24 +25,24 @@ export default function ChatView() {
             <div
               key={message.id}
               className={`flex ${
-                message.isMe ? "justify-end" : "justify-start"
+                isMe() ? "justify-end" : "justify-start"
               }`}
             >
               <div
                 className={`flex items-start space-x-2 max-w-xs ${
-                  message.isMe ? "flex-row-reverse space-x-reverse" : ""
+                  isMe() ? "flex-row-reverse space-x-reverse" : ""
                 }`}
               >
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-white ${
-                    message.isMe ? "bg-blue-500" : "bg-green-500"
+                    isMe() ? "bg-blue-500" : "bg-green-500"
                   }`}
                 >
                   {message.sender[0].toUpperCase()}
                 </div>
                 <div
                   className={`p-3 rounded-lg ${
-                    message.isMe
+                    isMe()
                       ? "bg-blue-500 text-white"
                       : "bg-white text-gray-800"
                   }`}
