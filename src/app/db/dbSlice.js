@@ -36,4 +36,6 @@ const dataSlice = createSlice({
 
 const { setDocuments } = dataSlice.actions;
 
+export { setDocuments, addDocument } 
+
 export default dataSlice.reducer;
