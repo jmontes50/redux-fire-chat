@@ -16,16 +16,18 @@ import { auth } from "../../config/firebase";
 const providerGoogle = new GoogleAuthProvider();
 
 const signInWithGoogle = createAsyncThunk(
-  'auth/signInWithGoogle',
+  "auth/signInWithGoogle",
   async (_, thunkApi) => {
     try {
       const result = await signInWithPopup(auth, providerGoogle);
-      return result.user;
+      const { uid, displayName, photoURL } = result.user;
+      //return result.user; //no serializable
+      return { uid, displayName, photoURL };
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
   }
-)
+);
 
 //slice con estado inicial y reducers
 const authSlice = createSlice({
@@ -33,7 +35,7 @@ const authSlice = createSlice({
   initialState: {
     user: null,
     isLoading: true,
-    error: null
+    error: null,
   },
   reducers: {
     setUser: (state, action) => {
@@ -45,19 +47,19 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-    .addCase(signInWithGoogle.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
-    })
-    .addCase(signInWithGoogle.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.user = action.payload;
-    })
-    .addCase(signInWithGoogle.rejected, (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    })
-  }
+      .addCase(signInWithGoogle.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(signInWithGoogle.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload;
+      })
+      .addCase(signInWithGoogle.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
+  },
 });
 
 const { setUser } = authSlice.actions;
