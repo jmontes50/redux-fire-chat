@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { addDocument } from "../app/db/dbSlice";
 
 export default function ChatView() {
   const isMe = (messageUID) => {
@@ -8,12 +9,15 @@ export default function ChatView() {
 
   const messages = null;
 
+  const dispatch = useDispatch();
+
   const handleSendMessage = (e) => {
     //prevenimos el evento por defecto del formulario
     e.preventDefault();
     //verificamos que el mensaje no esta en blanco
-    if (newMessage.trim() !== "") {
-    }
+    // if (newMessage.trim() !== "") {
+      dispatch(addDocument({message:"Hola!"}))
+    // }
   };
 
   return (
