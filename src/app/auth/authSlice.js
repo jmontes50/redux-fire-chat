@@ -29,6 +29,8 @@ const signInWithGoogle = createAsyncThunk(
   }
 );
 
+//1. creo el thunk
+
 const signOutUser = createAsyncThunk(
   'auth/signOut',
   async (_ , thunkApi ) => {
@@ -57,6 +59,7 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    //2. añado los casos que necesite con addCase
     builder
       .addCase(signInWithGoogle.pending, (state) => {
         state.isLoading = true;
@@ -69,12 +72,24 @@ const authSlice = createSlice({
       .addCase(signInWithGoogle.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-      });
+      })
+      .addCase(signOutUser.fulfilled, (state) => {
+        state.user = null;
+      })
   },
 });
 
 const { setUser } = authSlice.actions;
 
-export { setUser, signInWithGoogle };
+const initializeAuthListener = () => {
+  return (dispatch) => {
+    onAuthStateChanged(auth, (user) => {
+      const { uid, displayName, photoURL } = user;
+      dispatch(setUser({ uid, displayName, photoURL }))
+    })
+  }
+}
+
+export { setUser, signInWithGoogle, signOutUser, initializeAuthListener};
 
 export default authSlice.reducer;
