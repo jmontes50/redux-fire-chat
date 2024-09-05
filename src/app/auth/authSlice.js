@@ -29,7 +29,7 @@ const signInWithGoogle = createAsyncThunk(
   }
 );
 
-const signOut = createAsyncThunk(
+const signOutUser = createAsyncThunk(
   'auth/signOut',
   async (_ , thunkApi ) => {
     try {
