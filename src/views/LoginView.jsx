@@ -11,6 +11,14 @@ export default function Chat() {
     dispatch(signInWithGoogle());
   }
 
+  if( authState.isLoading ) {
+    return <p>Cargando...</p>
+  }
+
+  if( authState.error ) {
+    return <p>Sucedio un error, actualice la página y vuelva a intentar</p>
+  }
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="p-8 bg-white rounded-lg shadow-md">
