@@ -29,6 +29,17 @@ const signInWithGoogle = createAsyncThunk(
   }
 );
 
+const signOut = createAsyncThunk(
+  'auth/signOut',
+  async (_ , thunkApi ) => {
+    try {
+      await signOut();
+    } catch (error) {
+      return thunkApi.rejectWithValue(error);
+    }
+  }
+)
+
 //slice con estado inicial y reducers
 const authSlice = createSlice({
   name: "auth",
