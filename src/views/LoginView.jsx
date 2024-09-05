@@ -10,8 +10,14 @@ export default function Chat() {
   const navigate = useNavigate()
 
   const handleSignIn = () => {
-    dispatch(signInWithGoogle());
-    navigate('/chat')
+    dispatch(signInWithGoogle())
+    .unwrap()
+    .then(() => {
+      navigate('/chat')
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 
   if( authState.isLoading ) {
