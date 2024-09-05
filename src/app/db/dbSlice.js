@@ -8,6 +8,18 @@ import {
 } from "firebase/firestore";
 import { db } from "../../config/firebase";
 
+const addDocument = createAsyncThunk(
+  'data/addDocument',
+  async (documento, thunkApi) => {
+    try {
+      const docRef = await addDoc(collection(db, "mensajes"), documento);
+      console.log("Nuevo Doc", docRef)
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+)
+
 const dataSlice = createSlice({
   name: "data",
   initialState: {
