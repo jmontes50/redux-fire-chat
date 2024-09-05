@@ -1,8 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addDocument } from "../app/db/dbSlice";
 
 export default function ChatView() {
+
+  const refTextArea = useRef();
+
+  const { user } = useSelector((state) => state.auth);
+
   const isMe = (messageUID) => {
     return true;
   };
@@ -16,7 +21,13 @@ export default function ChatView() {
     e.preventDefault();
     //verificamos que el mensaje no esta en blanco
     // if (newMessage.trim() !== "") {
-      dispatch(addDocument({message:"Hola!"}))
+      dispatch(addDocument({
+        uid: user.uid,
+        name: user.displayName,
+        photo: user.photoURL,
+        message: refTextArea.current.value,
+        timestamp: Date.now()
+      }))
     // }
   };
 
@@ -62,6 +73,7 @@ export default function ChatView() {
             <textarea
               // value={newMessage}
               // onChange={(e) => setNewMessage(e.target.value)}
+              ref={refTextArea}
               placeholder="Escribe un mensaje..."
               className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               rows={2}
