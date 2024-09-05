@@ -1,14 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
 import { signInWithGoogle } from "../app/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Chat() {
   const authState = useSelector((state) => state.auth);
   console.log("authState", authState);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const handleSignIn = () => {
     dispatch(signInWithGoogle());
+    navigate('/chat')
   }
 
   if( authState.isLoading ) {

@@ -6,6 +6,8 @@ export default function ChatView() {
     return true;
   };
 
+  const messages = null;
+
   const handleSendMessage = (e) => {
     //prevenimos el evento por defecto del formulario
     e.preventDefault();
@@ -54,8 +56,8 @@ export default function ChatView() {
         <form onSubmit={handleSendMessage} className="p-4 bg-white">
           <div className="flex space-x-2">
             <textarea
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
+              // value={newMessage}
+              // onChange={(e) => setNewMessage(e.target.value)}
               placeholder="Escribe un mensaje..."
               className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               rows={2}
