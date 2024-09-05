@@ -10,6 +10,23 @@ import {
 
 import { auth } from "../../config/firebase";
 
+//thunks
+//accion asincrona para iniciar sesión con Google
+//provider de google
+const providerGoogle = new GoogleAuthProvider();
+
+const signInWithGoogle = createAsyncThunk(
+  'auth/signInWithGoogle',
+  async (_, thunkApi) => {
+    try {
+      const result = await signInWithPopup(auth, providerGoogle);
+      return true;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+)
+
 //slice con estado inicial y reducers
 const authSlice = createSlice({
   name: "auth",
