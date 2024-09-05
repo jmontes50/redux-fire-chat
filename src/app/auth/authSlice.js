@@ -20,7 +20,7 @@ const signInWithGoogle = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const result = await signInWithPopup(auth, providerGoogle);
-      return true;
+      return result.user;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
@@ -60,6 +60,8 @@ const authSlice = createSlice({
   }
 });
 
-export const { setUser } = authSlice.actions;
+const { setUser } = authSlice.actions;
+
+export { setUser, signInWithGoogle };
 
 export default authSlice.reducer;
