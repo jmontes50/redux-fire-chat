@@ -1,15 +1,16 @@
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addDocument } from "../app/db/dbSlice";
+import { addDocument, listenCollection } from "../app/db/dbSlice";
 
 export default function ChatView() {
 
   const refTextArea = useRef();
 
   const { user } = useSelector((state) => state.auth);
+  const { documents } = useSelector((state) => state.data);
 
   const isMe = (messageUID) => {
-    return true;
+    return messageUID === user.uid;
   };
 
   const messages = null;
@@ -31,27 +32,32 @@ export default function ChatView() {
     // }
   };
 
+  useEffect(() => {
+    dispatch(listenCollection());
+  }, [])
+
   return (
     <main className="px-4 mx-auto lg:px-8 xl:max-w-7xl">
       <div className="flex flex-col h-screen bg-gray-100">
         <div className="flex-1 p-4 space-y-4 overflow-y-auto">
-          {messages
-            ? messages.map((message) => (
+          {documents
+            ? documents.map((message) => (
                 <div
                   key={message.id}
-                  className={`flex ${isMe() ? "justify-end" : "justify-start"}`}
+                  className={`flex ${isMe(message.uid) ? "ms-auto justify-end" : "justify-start"}`}
                 >
                   <div
                     className={`flex items-start space-x-2 max-w-xs ${
-                      isMe() ? "flex-row-reverse space-x-reverse" : ""
+                      isMe(message.uid) ? "flex-row-reverse space-x-reverse" : ""
                     }`}
                   >
                     <div
                       className={`w-8 h-8 rounded-full flex items-center justify-center text-white ${
-                        isMe() ? "bg-blue-500" : "bg-green-500"
+                        isMe(message.uid) ? "bg-blue-500" : "bg-green-500"
                       }`}
                     >
-                      {message.sender[0].toUpperCase()}
+                      {/* {message.sender[0].toUpperCase()} */}
+                      <img src={message.photo} alt={message.name} />
                     </div>
                     <div
                       className={`p-3 rounded-lg ${
@@ -60,10 +66,11 @@ export default function ChatView() {
                           : "bg-white text-gray-800"
                       }`}
                     >
-                      <p className="text-sm font-semibold">{message.sender}</p>
-                      <p className="text-sm">{message.text}</p>
+                      <p className="text-sm font-semibold">{message.name}</p>
+                      <p className="text-sm">{message.message}</p>
                     </div>
                   </div>
+                  
                 </div>
               ))
             : null}
